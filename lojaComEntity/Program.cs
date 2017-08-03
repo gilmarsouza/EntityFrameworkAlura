@@ -14,11 +14,30 @@ namespace lojaComEntity
         {
             var contexto = new EntidadesContext();
 
-            var categoria = contexto.Categorias.Include(c => c.Produtos).FirstOrDefault(c => c.Id == 1);
+            var precoMinimo = 40;
 
-            foreach (var p in categoria.Produtos)
+            //Busca por ordem alfabética
+            var busca1 = from p in contexto.Produtos
+                         orderby p.Nome
+                         select p;
+
+            //Busca por produtos com preço maior que 100 em ordem alfabética
+            var busca2 = from p in contexto.Produtos
+                         where p.Preco > 100
+                         orderby p.Nome
+                         select p;
+
+            //Busca por produtos com preço maior que 100 e que façam parte da categoria "Roupas"
+            var busca3 = from p in contexto.Produtos
+                         where p.Preco > 100 
+                            && p.Categoria.Nome == "Roupas"
+                         select p;
+
+            var resultado = busca3.ToList();
+
+            foreach (var produto in resultado)
             {
-                Console.WriteLine(p.Nome);
+                Console.WriteLine(string.Format("{0} - {1}", produto.Nome, produto.Preco));
             }
 
             Console.ReadLine();
