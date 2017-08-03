@@ -13,5 +13,6 @@ namespace lojaComEntity.Entidades
         public decimal Preco { get; set; }
         public virtual Categoria Categoria { get; set; }
         public int CategoriaId { get; set; }
+        public virtual IList<ProdutoVenda> ProdutoVenda { get; set; } 
     }
 }

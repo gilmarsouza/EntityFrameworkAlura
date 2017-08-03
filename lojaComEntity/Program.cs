@@ -12,39 +12,64 @@ namespace lojaComEntity
     {
         static void Main(string[] args)
         {
+            VendasComVariosProdutos();
+            ExibirVendas();
+        }
+
+        private static void VendasComVariosProdutos()
+        {
+            EntidadesContext ctx = new EntidadesContext();
+            var usuarioDao = new UsuarioDao(ctx);
+            var produtoDao = new ProdutoDao(ctx);
+
+            var gilmar = usuarioDao.BuscaPorId(1);
+            var venda = new Venda()
+            {
+                Cliente = gilmar
+            };
+
+            ctx.Vendas.Add(venda);
+
+            var primeiroProduto = produtoDao.BuscaPorId(1);
+            var segundoProduto = produtoDao.BuscaPorId(2);
+
+            var produtoVenda1 = new ProdutoVenda()
+            {
+                Venda = venda,
+                Produto = primeiroProduto
+            };
+
+            ctx.ProdutoVenda.Add(produtoVenda1);
+
+            var produtoVenda2 = new ProdutoVenda()
+            {
+                Venda = venda,
+                Produto = segundoProduto
+            };
+
+            ctx.ProdutoVenda.Add(produtoVenda2);
+            ctx.SaveChanges();
+            ctx.Dispose();
+        }
+
+        private static void ExibirVendas()
+        {
             var contexto = new EntidadesContext();
 
-            var dao = new ProdutoDao(contexto);
+            var venda = contexto.Vendas
+                .Include(v => v.ProdutoVenda).ThenInclude(pv => pv.Produto)
+                .FirstOrDefault(v => v.Id == 1);
 
-            var resultado = dao.BuscaPorNomePrecoNomeCategoria(null, 25, null);
-
-            foreach (var produto in resultado)
+            foreach (var pv in venda.ProdutoVenda)
             {
-                Console.WriteLine(produto.Nome);
+                Console.WriteLine(pv.Produto.Nome);
             }
-
-            Console.WriteLine("---------------------");
-
-           resultado = dao.BuscaPorNomePrecoNomeCategoria("Mouse", 0, null);
-
-            foreach (var produto in resultado)
-            {
-                Console.WriteLine(produto.Nome);
-            }
-
-            Console.WriteLine("---------------------");
-
-            resultado = dao.BuscaPorNomePrecoNomeCategoria(null, 0, "Informática");
-
-            foreach (var produto in resultado)
-            {
-                Console.WriteLine(produto.Nome);
-            }
-
-
-
 
             Console.ReadLine();
         }
+
+
+
+
     }
 }
