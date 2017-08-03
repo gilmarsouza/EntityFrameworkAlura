@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Data.Entity;
@@ -12,8 +13,7 @@ namespace lojaComEntity
     {
         static void Main(string[] args)
         {
-            VendasComVariosProdutos();
-            ExibirVendas();
+            AdicionandoUsuarios();
         }
 
         private static void VendasComVariosProdutos()
@@ -66,6 +66,30 @@ namespace lojaComEntity
             }
 
             Console.ReadLine();
+        }
+
+        private static void AdicionandoUsuarios()
+        {
+            var contexto = new EntidadesContext();
+
+            var pf = new PessoaFisica()
+            {
+                Nome = "Guilherme",
+                Cpf = "123456",
+                Senha = "171"
+            };
+
+            contexto.PessoasFisicas.Add(pf);
+
+            var pj = new PessoaJuridica()
+            {
+                Nome = "Alura",
+                Cnpj = "1234651000102",
+                Senha = "499"
+            };
+
+            contexto.PessoasJuridicas.Add(pj);
+            contexto.SaveChanges();
         }
 
 
