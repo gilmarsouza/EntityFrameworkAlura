@@ -11,19 +11,14 @@ namespace lojaComEntity
     {
         static void Main(string[] args)
         {
-            var contexto = new EntidadesContext();
+            var manipulador = new UsuarioDao();
 
-            var gilmar = new Usuario()
-            {
-                Nome = "Gilmar",
-                Senha = "123"
-            };
+            var usuario = manipulador.BuscaPorId(1);
 
-            contexto.Usuarios.Add(gilmar);
-            contexto.SaveChanges();
-            contexto.Dispose();
+            usuario.Nome = "Gilmar Souza";
 
-            Console.WriteLine("Salvou o usuário");
+            manipulador.SaveChages();
+           
             Console.ReadLine();
         }
     }

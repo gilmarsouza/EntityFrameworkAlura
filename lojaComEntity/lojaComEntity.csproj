@@ -130,11 +130,15 @@
   <ItemGroup>
     <Compile Include="EntidadesContext.cs" />
     <Compile Include="Entidades\Usuario.cs" />
+    <Compile Include="lojaDataSet.cs">
+      <DependentUpon>lojaDataSet.xsd</DependentUpon>
+    </Compile>
     <Compile Include="lojaDataSet.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>lojaDataSet.xsd</DependentUpon>
     </Compile>
+    <Compile Include="UsuarioDao.cs" />
     <Compile Include="Migrations\20170223013124_criaUsuario.cs" />
     <Compile Include="Migrations\20170223013124_criaUsuario.designer.cs">
       <DependentUpon>20170223013124_criaUsuario.cs</DependentUpon>
