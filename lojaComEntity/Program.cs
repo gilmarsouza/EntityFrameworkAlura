@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Data.Entity;
 
 namespace lojaComEntity
 {
@@ -11,14 +12,15 @@ namespace lojaComEntity
     {
         static void Main(string[] args)
         {
-            var manipulador = new UsuarioDao();
+            var contexto = new EntidadesContext();
 
-            var usuario = manipulador.BuscaPorId(1);
+            var categoria = contexto.Categorias.Include(c => c.Produtos).FirstOrDefault(c => c.Id == 1);
 
-            usuario.Nome = "Gilmar Souza";
+            foreach (var p in categoria.Produtos)
+            {
+                Console.WriteLine(p.Nome);
+            }
 
-            manipulador.SaveChages();
-           
             Console.ReadLine();
         }
     }

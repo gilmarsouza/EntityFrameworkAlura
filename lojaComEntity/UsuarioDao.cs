@@ -7,18 +7,19 @@ namespace lojaComEntity
     {
         private EntidadesContext contexto;
 
-        public UsuarioDao()
+        public UsuarioDao(EntidadesContext ctx)
         {
-            contexto = new EntidadesContext();
-        }
-        public void SaveChages()
-        {
-            contexto.SaveChanges();
+            contexto = ctx;
         }
 
-        public void Salva(Usuario usuario)
+        public void Adiciona(Usuario usuario)
         {
             contexto.Usuarios.Add(usuario);
+            contexto.SaveChanges();
+        }
+        public void Remove(Usuario usuario)
+        {
+            contexto.Usuarios.Remove(usuario);
             contexto.SaveChanges();
         }
 
@@ -27,10 +28,5 @@ namespace lojaComEntity
             return contexto.Usuarios.FirstOrDefault(u => u.Id == id);
         }
 
-        public void Remove(Usuario usuario)
-        {
-            contexto.Usuarios.Remove(usuario);
-            contexto.SaveChanges();
-        }
     }
 }
