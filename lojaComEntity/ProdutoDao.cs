@@ -33,5 +33,21 @@ namespace lojaComEntity
             return contexto.Produtos.FirstOrDefault(x => x.Id == id);
         }
 
+        public IList<Produto> BuscaPorNomePrecoNomeCategoria(string nome, decimal preco, string nomeCategoria)
+        {
+            var busca = contexto.Produtos.Select(p => p);
+
+            if (!string.IsNullOrEmpty(nome))
+                busca = busca.Where(p => p.Nome == nome);
+
+            if (preco > 0.0m)
+                busca = busca.Where(p => p.Preco == preco);
+
+            if (!string.IsNullOrEmpty(nomeCategoria))
+                busca = busca.Where(p => p.Categoria.Nome == nomeCategoria);
+
+            return busca.ToList();
+        }
+
     }
 }
